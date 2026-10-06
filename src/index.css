@@ -1,0 +1,364 @@
+@import "tailwindcss";
+@import "@fontsource/jacquard-24/latin-400.css";
+
+/* PxPlus IBM VGA 8x16, from The Ultimate Oldschool PC Font Pack by VileR (CC BY-SA 4.0) */
+@font-face {
+  font-family: "PxPlus IBM VGA 8x16";
+  src: url("./assets/fonts/PxPlus_IBM_VGA_8x16.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* Tokens. DESIGN.md is the source of truth for what each one is for. */
+@theme {
+  /* Srcery, as configured in the athanor terminal theme */
+  --color-ink: #1c1b19;
+  --color-ink-deep: #121110;
+  --color-clay: #2a2824;
+  --color-rule: #3c3a36;
+  --color-umber: #5c4c39;
+  --color-dim: #918175;
+  --color-tan: #baa67f;
+  --color-cream: #fce8c3;
+  --color-amber: #fbb829;
+  --color-amber-hi: #fed06e;
+  --color-amber-lo: #a8760f;
+  --color-blood: #f75341;
+
+  --font-vga: "PxPlus IBM VGA 8x16", "Cascadia Mono", Consolas, "Courier New", monospace;
+  --font-display: "Jacquard 24", "PxPlus IBM VGA 8x16", serif;
+
+  /* Layers: bars sit above content, the skip link above the bars */
+  --z-index-bars: 40;
+  --z-index-skip: 50;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-ink);
+    /* Fixed bars must never cover an anchor target or a focused element */
+    scroll-padding-top: 64px;
+    scroll-padding-bottom: 56px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-vga);
+    /* The bitmap font is drawn on an 8x16 grid: 16px and 32px keep it sharp */
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
+    overflow-x: hidden;
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    background: var(--color-dim);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    image-rendering: pixelated;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 32px;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .link {
+    color: var(--color-amber);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .link:hover {
+    color: var(--color-cream);
+  }
+
+  /* Section break: a three-row dither that thins out downwards */
+  .dither-band {
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%235c4c39' d='M0 0h2v2H0zM4 0h2v2H4zM2 2h2v2H2zM6 2h2v2H6zM0 4h2v2H0zM4 6h2v2H4zM2 8h2v2H2z'/%3E%3C/svg%3E")
+      repeat-x;
+  }
+
+  /*
+   * Pixel clay. Claymorphism (a puffy surface lit from the top left, sitting on a soft shadow)
+   * drawn with pixel-art means: corners are 4px staircases instead of curves, the highlight and
+   * the lowlight are hard 4px bevels, and the shadow is a checkerboard dither instead of a blur.
+   * The surface and the shadow live in pseudo-elements so the content is never clipped.
+   */
+  .clay {
+    --clay-bg: var(--color-clay);
+    --clay-hi: var(--color-rule);
+    --clay-lo: var(--color-ink-deep);
+    --clay-shadow: var(--color-umber);
+    --lift: 0px;
+    --steps: polygon(
+      0 8px,
+      4px 8px,
+      4px 4px,
+      8px 4px,
+      8px 0,
+      calc(100% - 8px) 0,
+      calc(100% - 8px) 4px,
+      calc(100% - 4px) 4px,
+      calc(100% - 4px) 8px,
+      100% 8px,
+      100% calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 4px),
+      calc(100% - 8px) calc(100% - 4px),
+      calc(100% - 8px) 100%,
+      8px 100%,
+      8px calc(100% - 4px),
+      4px calc(100% - 4px),
+      4px calc(100% - 8px),
+      0 calc(100% - 8px)
+    );
+    position: relative;
+    isolation: isolate;
+    transform: translate(calc(var(--lift) * -1), calc(var(--lift) * -1));
+  }
+
+  .clay::before,
+  .clay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    clip-path: var(--steps);
+    pointer-events: none;
+  }
+
+  .clay::before {
+    z-index: -2;
+    background: repeating-conic-gradient(var(--clay-shadow) 0 25%, transparent 0 50%) 0 0 / 4px 4px;
+    transform: translate(calc(8px + var(--lift)), calc(8px + var(--lift)));
+  }
+
+  .clay::after {
+    z-index: -1;
+    background: var(--clay-bg);
+    box-shadow:
+      inset 4px 4px 0 var(--clay-hi),
+      inset -4px -4px 0 var(--clay-lo),
+      inset 10px 10px 14px -6px rgb(252 232 195 / 0.12),
+      inset -10px -10px 14px -6px rgb(0 0 0 / 0.4);
+  }
+
+  .clay-amber {
+    --clay-bg: var(--color-amber);
+    --clay-hi: var(--color-amber-hi);
+    --clay-lo: var(--color-amber-lo);
+    --clay-shadow: var(--color-amber-lo);
+    color: var(--color-ink);
+  }
+
+  /* Interactive clay: rises a pixel step on hover, sinks into its shadow when pressed */
+  .clay-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 12px 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .clay-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 16px;
+    white-space: nowrap;
+  }
+
+  .clay-button:hover,
+  .clay-chip:hover {
+    --lift: 2px;
+  }
+
+  .clay-button:active,
+  .clay-chip:active {
+    --lift: -6px;
+  }
+
+  .clay-button:focus-visible,
+  .clay-chip:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .clay-amber:focus-visible {
+    outline-color: var(--color-cream);
+  }
+
+  .clay-chip:hover {
+    color: var(--color-amber);
+  }
+
+  /* Dithered artwork is shown at its natural size and cropped by its frame, never rescaled */
+  .plate-frame {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plate-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+  }
+
+  /* The terminal prints an image row by row; the cover slides away in the same steps */
+  .plate-cover {
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    transform: translateY(100%);
+  }
+
+  /* Two concentric amber frames, as on the terminal lock screen */
+  .prompt-input {
+    width: 100%;
+    max-width: 384px;
+    height: 44px;
+    padding: 0 12px;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    caret-color: var(--color-amber);
+    border: 2px solid var(--color-amber);
+    box-shadow:
+      0 0 0 2px var(--color-ink),
+      0 0 0 4px var(--color-amber);
+    margin: 4px;
+    font: inherit;
+  }
+
+  .prompt-input::placeholder {
+    color: var(--color-dim);
+    opacity: 1;
+  }
+
+  .prompt-input:focus-visible {
+    outline: none;
+    border-color: var(--color-cream);
+    box-shadow:
+      0 0 0 2px var(--color-ink),
+      0 0 0 4px var(--color-cream);
+  }
+
+  /* A project screenshot starts as a two-color plate; the original fades in over it */
+  .develop-color {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    image-rendering: auto;
+  }
+
+  .develop:hover .develop-color,
+  .develop[data-developed="true"] .develop-color {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .clay {
+    transition: transform 100ms steps(2, end);
+  }
+
+  .clay::before {
+    transition: transform 100ms steps(2, end);
+  }
+
+  .plate-cover {
+    animation: plate-print 900ms steps(20, end) both;
+  }
+
+  .develop-color {
+    transition: opacity 400ms steps(5, end);
+  }
+
+  /* Sections arrive in a few hard steps, like a slow terminal redraw */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 400ms steps(4, end),
+      transform 400ms steps(4, end);
+  }
+
+  .reveal[data-in="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .skeleton {
+    animation: skeleton-blink 1200ms steps(2, jump-none) infinite;
+  }
+}
+
+@keyframes plate-print {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes skeleton-blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
