@@ -37,6 +37,7 @@ contribuciones de GitHub) y sumándole personalidad.
 | 8 | Estados e interacción | `design-taste-frontend` §4.5 | Skeleton, error con reintento, prompt, tabs con teclado | Probado en headless: comandos del prompt, flechas en tabs, fetch forzado a fallar | Hecho |
 | 9 | Auditoría | `design-taste-frontend` §14, `web-design-guidelines` | `docs/design/preflight.md` | Cada fila tiene estado; los desvíos están en `CLAUDE.md` | Hecho |
 | 10 | Deploy | - | `.github/workflows/deploy.yml` | `npm run build` genera `dist/` con rutas relativas | Workflow escrito, sin ejecutar |
+| 11 | Copy formal | `DESIGN.md` §5 | Ficha de Skills con etiquetas profesionales (`Profile`: Role, Companies, Education, Location); Contact sin párrafo de créditos | `lint`, `test` y `build` pasan | Hecho |
 
 ## Decisiones
 

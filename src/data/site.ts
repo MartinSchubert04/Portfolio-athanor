@@ -3,7 +3,6 @@ import { GITHUB_PROFILE } from "@/lib/github"
 
 export const site = {
   name: "Martin Schubert",
-  role: "Fullstack Developer",
   pitch: "Fullstack developer in Buenos Aires. I build web apps end to end, and neural networks in C++ for fun.",
   resume,
   resumeFileName: "MartinSchubert.pdf",

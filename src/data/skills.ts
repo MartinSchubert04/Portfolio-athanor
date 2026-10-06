@@ -73,10 +73,10 @@ export const skillGroups: SkillGroup[] = [
   },
 ]
 
-// Character sheet, in the spirit of the terminal splash. Every value is a plain fact.
+// Profile sheet: the two-column layout of the terminal splash, with plain professional labels.
 export const sheet: { key: string; value: string }[] = [
-  { key: "Class", value: "Fullstack developer, SRE" },
-  { key: "Guilds", value: "Correo Argentino, DC Solutions" },
-  { key: "School", value: "UNSAM" },
-  { key: "Realm", value: "Buenos Aires, Argentina" },
+  { key: "Role", value: "Fullstack Developer, SRE" },
+  { key: "Companies", value: "Correo Argentino, DC Solutions" },
+  { key: "Education", value: "UNSAM" },
+  { key: "Location", value: "Buenos Aires, Argentina" },
 ]

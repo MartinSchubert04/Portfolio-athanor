@@ -135,7 +135,7 @@ Amber, 2px underline at 4px offset. Hover: cream.
 - **Each section has its own layout family; do not repeat one:**
   1. Hero: plate left, 2px rule, text panel right (the lock screen).
   2. Career: text-adventure rooms in a two-column grid (work on the first row, studies on the second), divided by a rule.
-  3. Skills: full-width plate, then character sheet beside grouped clay chips.
+  3. Skills: full-width plate, then profile sheet beside grouped clay chips.
   4. Projects: master-detail. A vertical tab list selects; a clay pane previews.
   5. Ledger: full-width calendar, then large figures beside a commit log.
   6. Contact: text and actions left, plate right.

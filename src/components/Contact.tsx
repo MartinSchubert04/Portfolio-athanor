@@ -38,23 +38,6 @@ export function Contact({ plate }: { plate: Plate }) {
             <span className="text-amber">{card.attribution}</span>
             <span className="text-dim"> - {card.meaning}</span>
           </p>
-
-          <p className="max-w-[65ch] text-dim">
-            Plates are public domain works by Doré, Friedrich, Cabanel, Blake and Michelangelo, via Wikimedia Commons,
-            dithered to two colors. Type is{" "}
-            <a href="https://int10h.org/oldschool-pc-fonts/" target="_blank" rel="noopener" className="link">
-              PxPlus IBM VGA 8x16
-            </a>{" "}
-            by VileR (CC BY-SA 4.0) and Jacquard 24 (OFL). The look follows{" "}
-            <a href="https://github.com/script-wizards/athanor" target="_blank" rel="noopener" className="link">
-              athanor
-            </a>{" "}
-            by script-wizards, in{" "}
-            <a href="https://srcery.sh/" target="_blank" rel="noopener" className="link">
-              Srcery
-            </a>{" "}
-            colors.
-          </p>
         </div>
 
         <PlateFigure plate={plate} {...PLATE_SIZE} frameClassName="h-[320px] w-full max-w-[512px] sm:h-[480px] lg:h-[560px]" />

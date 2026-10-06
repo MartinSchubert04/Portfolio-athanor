@@ -1,5 +1,4 @@
 import { HANDS_SIZE, handsPlate } from "@/data/plates"
-import { site } from "@/data/site"
 import { sheet, skillGroups } from "@/data/skills"
 import { PlateFigure } from "./PlateFigure"
 import { Section } from "./Section"
@@ -14,10 +13,8 @@ export function Skills() {
 
       <div className="mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
         <div>
-          <h3 className="text-cream">
-            <span translate="no">{site.name.split(" ")[0]}</span> the {site.role}
-          </h3>
-          <dl className="mt-4 grid grid-cols-[8ch_minmax(0,1fr)] gap-y-1">
+          <h3 className="text-cream">Profile</h3>
+          <dl className="mt-4 grid grid-cols-[10ch_minmax(0,1fr)] gap-y-1">
             {sheet.map(({ key, value }) => (
               <div key={key} className="contents">
                 <dt className="text-amber">{key}</dt>

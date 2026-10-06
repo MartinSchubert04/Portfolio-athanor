@@ -29,7 +29,7 @@ formularios largos no tienen contraparte acá.
 | Listas largas con el componente correcto | Pasa | Skills agrupadas en 4; proyectos como tabs; el log tiene 6 filas sin divisores |
 | Imágenes reales | Pasa | Grabados de dominio público y capturas reales de los proyectos, procesadas |
 | Sin pills ni etiquetas sobre imágenes | Pasa | El epígrafe va debajo |
-| Epígrafes de crédito | Pasa | Acreditan obras y autores reales |
+| Epígrafes de crédito | Pasa | Acreditan obras y autores reales. El párrafo de créditos de Contact se quitó; los créditos completos quedan en `README.md` |
 | Sin tiras de hora o lugar | **Desvío** | La barra de estado es el rasgo central de la referencia. Acordado |
 | Sin footer de versión | Pasa | |
 | Sin scroll cues, sin numeración de secciones, sin puntos decorativos | Pasa | |
