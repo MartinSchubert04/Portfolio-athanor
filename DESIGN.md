@@ -113,8 +113,10 @@ word:`), reply below in dim inside an `aria-live` region. Focus turns both frame
 5x5 mirrored identicon, 12px cells, amber, inside a 2px amber frame. Seeded by the latest commit SHA.
 
 ### Contribution calendar
-16px cells on a 20px pitch. Intensity is dither density, not shade: level 0 is plain `clay`, levels
-1 to 3 ink 25, 50 and 75% of the cell's 4px pixels in amber, level 4 is solid amber.
+Spans the full width of its container. A cell is a 4x4 grid of whole pixels, so it is 12, 16 or 20px
+(20px on desktop); the leftover width goes into the gaps. If 12px cells do not fit, it stays at 16px
+and scrolls. Intensity is dither density, not shade: level 0 is plain `clay`, levels 1 to 3 ink 25,
+50 and 75% of the cell's pixels in amber, level 4 is solid amber.
 
 ### Section break (`.dither-band`)
 A 12px band of `umber` dither thinning downwards, full width, above each section after the hero.
@@ -132,7 +134,7 @@ Amber, 2px underline at 4px offset. Hover: cream.
   for the one preview pane.
 - **Each section has its own layout family; do not repeat one:**
   1. Hero: plate left, 2px rule, text panel right (the lock screen).
-  2. Career: three text-adventure rooms side by side, divided by rules.
+  2. Career: text-adventure rooms in a two-column grid (work on the first row, studies on the second), divided by a rule.
   3. Skills: full-width plate, then character sheet beside grouped clay chips.
   4. Projects: master-detail. A vertical tab list selects; a clay pane previews.
   5. Ledger: full-width calendar, then large figures beside a commit log.

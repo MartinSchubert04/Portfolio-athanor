@@ -5,9 +5,9 @@ import { Section } from "./Section"
 export function Career() {
   return (
     <Section id="career" title="Career">
-      <div className="grid gap-x-10 gap-y-14 lg:grid-cols-3 xl:gap-x-12">
+      <div className="grid gap-x-16 gap-y-16 lg:grid-cols-2">
         {career.map((entry) => (
-          <article key={entry.id} className="min-w-0 lg:not-first:border-l-2 lg:not-first:border-rule lg:not-first:pl-10 xl:not-first:pl-12">
+          <article key={entry.id} className="min-w-0 lg:even:border-l-2 lg:even:border-rule lg:even:pl-16">
             <h3 className="text-[32px] leading-10 text-amber">~ {entry.name} ~</h3>
             <p className="mt-4 text-cream">{entry.title}</p>
             <p className="text-dim">
@@ -22,10 +22,12 @@ export function Career() {
               ))}
             </div>
 
-            <p className="mt-6 text-tan">
-              <span className="text-dim">Stack:</span> {entry.stack.join(", ")}
-            </p>
-            <p className="text-dim">
+            {entry.stack.length > 0 && (
+              <p className="mt-6 text-tan">
+                <span className="text-dim">Stack:</span> {entry.stack.join(", ")}
+              </p>
+            )}
+            <p className={entry.stack.length > 0 ? "text-dim" : "mt-6 text-dim"}>
               Links:{" "}
               {entry.exits.map((exit, i) => (
                 <span key={exit.href}>

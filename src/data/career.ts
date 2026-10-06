@@ -43,14 +43,28 @@ export const career: CareerEntry[] = [
     ],
   },
   {
-    id: "unsam",
-    name: "UNSAM",
+    id: "unsam-electronics",
+    name: "UNSAM, Engineering",
+    title: "Electronic Engineering",
+    period: "2026 - Today, in progress",
+    place: "San Martín, Buenos Aires",
+    achievements: [
+      "Currently studying Electronic Engineering at Universidad Nacional de San Martín, started right after graduating in programming.",
+    ],
+    stack: [],
+    exits: [
+      { label: "Website", href: "https://www.unsam.edu.ar/" },
+      { label: "Course notes", href: "https://github.com/MartinSchubert04/Ingenieria-Electronica" },
+    ],
+  },
+  {
+    id: "unsam-programming",
+    name: "UNSAM, Programming",
     title: "Technical Degree in Computer Programming",
     period: "2022 - 2026, graduated",
     place: "San Martín, Buenos Aires",
     achievements: [
       "Graduated from the programming degree at Universidad Nacional de San Martín, with two full-stack team projects along the way: a food ordering app and a book lending app.",
-      "Studying Electronic Engineering at the same university since 2026.",
     ],
     stack: ["Kotlin", "Spring Boot", "React", "Svelte", "TypeScript", "PostgreSQL", "MongoDB"],
     exits: [{ label: "Website", href: "https://www.unsam.edu.ar/" }],

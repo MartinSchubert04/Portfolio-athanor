@@ -7,7 +7,10 @@ import { Section } from "./Section"
 export function Skills() {
   return (
     <Section id="skills" title="Skills">
-      <PlateFigure plate={handsPlate} {...HANDS_SIZE} frameClassName="h-[224px] w-full md:h-[320px]" />
+      {/* As wide as the artwork, so the caption starts at the plate's left edge */}
+      <div className="mx-auto" style={{ maxWidth: HANDS_SIZE.width }}>
+        <PlateFigure plate={handsPlate} {...HANDS_SIZE} frameClassName="h-[224px] w-full md:h-[320px]" />
+      </div>
 
       <div className="mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
         <div>
