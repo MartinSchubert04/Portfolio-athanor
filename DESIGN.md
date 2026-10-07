@@ -24,14 +24,16 @@ font, and old master engravings reduced to two colors by Floyd-Steinberg ditheri
 
 ## 2. Color Palette & Roles
 
-[Srcery](https://srcery.sh/), as configured in the terminal theme. One accent. Dark only.
+[Srcery](https://srcery.sh/), as configured in the terminal theme, is the default. One accent.
+The table below is Srcery; the other palettes are listed after the rules.
 
 | Token | Hex | Role |
 |---|---|---|
 | `ink` | `#1C1B19` | Page background. Also text on amber surfaces |
 | `ink-deep` | `#121110` | Lowlight bevel of dark clay |
 | `clay` | `#2A2824` | Dark clay surface; empty cells of the contribution calendar |
-| `rule` | `#3C3A36` | 2px rules, bar borders, highlight bevel of dark clay |
+| `clay-hi` | `#3C3A36` | Highlight bevel of dark clay |
+| `rule` | `#3C3A36` | 2px rules, bar borders |
 | `umber` | `#5C4C39` | Dither of shadows and section breaks. Never text |
 | `dim` | `#918175` | Secondary text: captions, dates, labels (4.6:1 on ink) |
 | `tan` | `#BAA67F` | The plate ink. Tertiary text, unselected items |
@@ -40,6 +42,8 @@ font, and old master engravings reduced to two colors by Floyd-Steinberg ditheri
 | `amber-hi` | `#FED06E` | Highlight bevel of amber clay |
 | `amber-lo` | `#A8760F` | Lowlight bevel and dithered shadow of amber clay |
 | `blood` | `#F75341` | Error text only |
+| `plate` | `#BAA67F` | The lit pixels of a plate |
+| `plate-ground` | `#1C1B19` | The backing a plate sits on |
 
 Rules:
 
@@ -47,7 +51,25 @@ Rules:
   magenta, cyan) for decoration.
 - No pure black, no pure white, no gradients between colors, no transparency ramps. A mid-tone is
   made by dithering two palette colors.
-- Plates are always `tan` on transparent. They are never tinted amber.
+- Plates are always `plate` on `plate-ground`. They are never tinted amber.
+
+### Palettes
+
+Besides Srcery there are the four schemes of [athanor](https://github.com/script-wizards/athanor)
+(`src/athanor/palette.toml`): **Umber** (dark, sepia), **Vellum** (light, parchment), **Orpiment**
+(light, yellow) and **Cinnabar** (dark, red). The visitor picks one with the `Tint` button of the
+status bar or by typing its name in the prompt; the choice is kept in `localStorage`, and
+`?palette=umber` forces one.
+
+- A palette only re-inks the tokens above (`:root[data-palette]` in `src/index.css`). Token names
+  keep their role: `ink` is the page, `cream` the text, `amber` the accent, whatever the hue.
+- The hex values of each palette live in `src/index.css`. Page, text, dim, rule, accent and error
+  come straight from `palette.toml`; the clay tones, `tan` on the light palettes and `amber-lo` are
+  derived from them, since athanor has no clay.
+- On the light palettes a plate keeps its tones: `plate-ground` is dark and `plate` is the paper
+  color, so the engraving is a dark block on the page instead of a negative.
+- Cinnabar and Orpiment paint the two bars in their own color (red, dark brown). Inside `.bar` the
+  tokens are re-inked so the same classes stay legible.
 
 ## 3. Typography Rules
 
@@ -78,7 +100,7 @@ other size for it. Jacquard 24 is drawn on a 24px grid; use multiples of 24.
 ### Pixel clay (`.clay`)
 Surface and shadow live in pseudo-elements so content is never clipped.
 - Shape: `clip-path` polygon with two 4px steps on each corner.
-- Surface: `clay` fill, `inset 4px 4px 0` highlight (`rule`), `inset -4px -4px 0` lowlight
+- Surface: `clay` fill, `inset 4px 4px 0` highlight (`clay-hi`), `inset -4px -4px 0` lowlight
   (`ink-deep`), plus two soft inset shadows that give the puffiness.
 - Shadow: the same shape, offset 8px right and down, filled with a 4px checkerboard of `umber`.
 - Amber variant (`.clay-amber`): `amber` fill, `amber-hi` and `amber-lo` bevels, `ink` text.
@@ -106,8 +128,9 @@ word:`), reply below in dim inside an `aria-live` region. Focus turns both frame
 ### Bars
 - Top: fixed, 40px, ink with a 2px `rule` border below. Brand `@ martin` in amber, the raven line
   (latest commit, truncated, with an inverse `--More--` link), nav links in tan. Current section in amber.
-- Bottom: fixed, 32px, NetHack status line in tan: `Dlvl:n Section`, commit counts, Buenos Aires
-  time, planetary hour, moon phase. Every field is live data.
+- Bottom: fixed, 32px, NetHack status line in tan: `Dlvl:n Section`, commit counts, `Tint:Palette`
+  (a button that steps to the next palette), Buenos Aires time, planetary hour, moon phase. Every
+  field is live data.
 
 ### Sigil
 5x5 mirrored identicon, 12px cells, amber, inside a 2px amber frame. Seeded by the latest commit SHA.

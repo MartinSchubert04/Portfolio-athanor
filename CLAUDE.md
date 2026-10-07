@@ -60,7 +60,7 @@ Reglas de las skills que este proyecto incumple a propósito. No "corregirlas" s
 
 | Regla | Qué hace el proyecto | Por qué |
 |---|---|---|
-| taste 6.C / 8: modo claro y oscuro | Solo oscuro | La identidad es un tema de terminal; los grabados están tramados para fondo oscuro |
+| taste 6.C / 8: modo claro y oscuro | Cinco paletas que elige el visitante (tres oscuras, dos claras), sin seguir `prefers-color-scheme` | La identidad es un tema de terminal con paletas propias; Srcery, oscura, es la de entrada |
 | taste 9.F: sin tiras de hora, lugar o clima | Barra de estado con hora de Buenos Aires, hora planetaria y luna | Está en las dos imágenes de referencia; es el rasgo que define athanor |
 | taste 4.7: máximo 4 elementos de texto en el hero | El hero suma sigilo, almanaque y prompt | Es la composición de la pantalla de bloqueo de referencia |
 | taste 4.1: serif muy desaconsejada | Jacquard 24 (blackletter) en títulos | Es la fuente del reloj del splash de athanor; el brief nombra esa estética |

@@ -7,7 +7,7 @@ export function TopBar({ active }: { active: SectionId }) {
   const lastCommit = state.status === "ready" ? state.data.commits[0] : undefined
 
   return (
-    <header className="fixed inset-x-0 top-0 z-(--z-index-bars) border-b-2 border-rule bg-ink pt-[env(safe-area-inset-top)]">
+    <header className="bar fixed inset-x-0 top-0 z-(--z-index-bars) border-b-2 border-rule bg-ink pt-[env(safe-area-inset-top)]">
       <div className="shell flex h-10 items-center gap-6">
         <a href="#top" className="hidden shrink-0 text-amber hover:text-cream sm:block" translate="no">
           @ martin

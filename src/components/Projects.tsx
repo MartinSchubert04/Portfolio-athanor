@@ -93,7 +93,7 @@ export function Projects() {
           className="clay mr-2 mb-2 min-w-0 p-3"
         >
           <div
-            className="develop plate-frame w-full bg-ink"
+            className="develop plate-frame w-full"
             data-developed={developed}
             style={{ aspectRatio: `${PROJECT_IMAGE_SIZE.width} / ${PROJECT_IMAGE_SIZE.height}`, maxHeight: PROJECT_IMAGE_SIZE.height }}
           >

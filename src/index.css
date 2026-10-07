@@ -14,6 +14,7 @@
   --color-ink: #1c1b19;
   --color-ink-deep: #121110;
   --color-clay: #2a2824;
+  --color-clay-hi: #3c3a36;
   --color-rule: #3c3a36;
   --color-umber: #5c4c39;
   --color-dim: #918175;
@@ -23,6 +24,9 @@
   --color-amber-hi: #fed06e;
   --color-amber-lo: #a8760f;
   --color-blood: #f75341;
+  /* A plate keeps its tones: lit pixels in `plate`, on a `plate-ground` backing */
+  --color-plate: #baa67f;
+  --color-plate-ground: #1c1b19;
 
   --font-vga: "PxPlus IBM VGA 8x16", "Cascadia Mono", Consolas, "Courier New", monospace;
   --font-display: "Jacquard 24", "PxPlus IBM VGA 8x16", serif;
@@ -30,6 +34,114 @@
   /* Layers: bars sit above content, the skip link above the bars */
   --z-index-bars: 40;
   --z-index-skip: 50;
+}
+
+/*
+ * Palettes. Srcery above is the default; these are the four schemes of script-wizards/athanor
+ * (src/athanor/palette.toml). The token names keep their Srcery meaning: `ink` is always the page,
+ * `cream` the text and `amber` the accent, whatever hue the palette gives them.
+ */
+:root {
+  --clay-glow: rgb(252 232 195 / 0.12);
+  --clay-shade: rgb(0 0 0 / 0.4);
+}
+
+:root[data-palette="umber"] {
+  --color-ink: #16120e;
+  --color-ink-deep: #0d0b08;
+  --color-clay: #231d16;
+  --color-clay-hi: #3a3126;
+  --color-rule: #3a3126;
+  --color-umber: #5c4c39;
+  --color-dim: #8d7d65;
+  --color-tan: #cfc1a3;
+  --color-cream: #e3d6b8;
+  --color-amber: #d49a3a;
+  --color-amber-hi: #e8bd6a;
+  --color-amber-lo: #8f6520;
+  --color-blood: #dd7357;
+  --color-plate: #c9b994;
+  --color-plate-ground: #16120e;
+}
+
+:root[data-palette="cinnabar"] {
+  --color-ink: #1c0e0c;
+  --color-ink-deep: #120807;
+  --color-clay: #2c1613;
+  --color-clay-hi: #4a2420;
+  --color-rule: #4a2420;
+  --color-umber: #6e3428;
+  --color-dim: #a8857a;
+  --color-tan: #d8c4ac;
+  --color-cream: #ecd9c0;
+  --color-amber: #e2a24a;
+  --color-amber-hi: #f2be6e;
+  --color-amber-lo: #9a6a26;
+  --color-blood: #ff7a56;
+  --color-plate: #d6ad94;
+  --color-plate-ground: #1c0e0c;
+}
+
+/* Light palettes: the page is paper, and a plate becomes a dark block with paper-colored light */
+:root[data-palette="vellum"] {
+  color-scheme: light;
+  --color-ink: #ece1c6;
+  --color-ink-deep: #d3c6a3;
+  --color-clay: #f3ead3;
+  --color-clay-hi: #fbf5e6;
+  --color-rule: #b9aa86;
+  --color-umber: #b9aa86;
+  --color-dim: #6e5f4c;
+  --color-tan: #473c30;
+  --color-cream: #1f1914;
+  --color-amber: #7c5510;
+  --color-amber-hi: #a57a2a;
+  --color-amber-lo: #553a08;
+  --color-blood: #9a3522;
+  --color-plate: #ece1c6;
+  --color-plate-ground: #2b241c;
+  --clay-glow: rgb(255 255 255 / 0.5);
+  --clay-shade: rgb(31 25 20 / 0.12);
+}
+
+:root[data-palette="orpiment"] {
+  color-scheme: light;
+  --color-ink: #eddca8;
+  --color-ink-deep: #d4bd80;
+  --color-clay: #f4e7bd;
+  --color-clay-hi: #fbf2d6;
+  --color-rule: #c9b27a;
+  --color-umber: #c9b27a;
+  --color-dim: #6a5737;
+  --color-tan: #473922;
+  --color-cream: #241a0c;
+  --color-amber: #7a4f06;
+  --color-amber-hi: #a3700f;
+  --color-amber-lo: #553604;
+  --color-blood: #9a3522;
+  --color-plate: #eddca8;
+  --color-plate-ground: #2a1d0a;
+  --clay-glow: rgb(255 255 255 / 0.5);
+  --clay-shade: rgb(36 26 12 / 0.12);
+}
+
+/* Two palettes paint the bars in their own color; inside them the tokens are re-inked to match */
+:root[data-palette="cinnabar"] .bar {
+  --color-ink: #6e1a14;
+  --color-rule: #6e1a14;
+  --color-dim: #d6ad94;
+  --color-tan: #e0c8b0;
+  --color-cream: #f3e4cc;
+  --color-amber: #ffd27a;
+}
+
+:root[data-palette="orpiment"] .bar {
+  --color-ink: #2a1d0a;
+  --color-rule: #2a1d0a;
+  --color-dim: #a8915c;
+  --color-tan: #d4bd80;
+  --color-cream: #eddca8;
+  --color-amber: #e9c766;
 }
 
 @layer base {
@@ -124,7 +236,9 @@
   /* Section break: a three-row dither that thins out downwards */
   .dither-band {
     height: 12px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' shape-rendering='crispEdges'%3E%3Cpath fill='%235c4c39' d='M0 0h2v2H0zM4 0h2v2H4zM2 2h2v2H2zM6 2h2v2H6zM0 4h2v2H0zM4 6h2v2H4zM2 8h2v2H2z'/%3E%3C/svg%3E")
+    background: var(--color-umber);
+    /* The pattern is a mask so the band takes the palette's color */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v2H0zM4 0h2v2H4zM2 2h2v2H2zM6 2h2v2H6zM0 4h2v2H0zM4 6h2v2H4zM2 8h2v2H2z'/%3E%3C/svg%3E")
       repeat-x;
   }
 
@@ -136,7 +250,7 @@
    */
   .clay {
     --clay-bg: var(--color-clay);
-    --clay-hi: var(--color-rule);
+    --clay-hi: var(--color-clay-hi);
     --clay-lo: var(--color-ink-deep);
     --clay-shadow: var(--color-umber);
     --lift: 0px;
@@ -188,8 +302,8 @@
     box-shadow:
       inset 4px 4px 0 var(--clay-hi),
       inset -4px -4px 0 var(--clay-lo),
-      inset 10px 10px 14px -6px rgb(252 232 195 / 0.12),
-      inset -10px -10px 14px -6px rgb(0 0 0 / 0.4);
+      inset 10px 10px 14px -6px var(--clay-glow),
+      inset -10px -10px 14px -6px var(--clay-shade);
   }
 
   .clay-amber {
@@ -248,6 +362,7 @@
   .plate-frame {
     position: relative;
     overflow: hidden;
+    background: var(--color-plate-ground);
   }
 
   .plate-frame img {
@@ -255,6 +370,11 @@
     width: 100%;
     height: 100%;
     object-fit: none;
+  }
+
+  /* The PNGs are one color on transparent; the filter in App.tsx re-inks them in `plate` */
+  .plate-frame img:not(.develop-color) {
+    filter: url("#plate-ink");
   }
 
   /* The terminal prints an image row by row; the cover slides away in the same steps */

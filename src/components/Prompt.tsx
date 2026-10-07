@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from "react"
 import { sections, site } from "@/data/site"
+import { setPalette } from "@/hooks/usePalette"
+import { isPalette, paletteLabel, palettes } from "@/lib/palette"
 
 interface PromptProps {
   /** Draws the next plate and returns its caption. */
@@ -9,7 +11,9 @@ interface PromptProps {
 const HELP = `Words I know: ${sections
   .slice(1)
   .map((s) => s.id)
-  .join(", ")}, resume, github, linkedin, plate.`
+  .join(", ")}, resume, github, linkedin, plate, theme.`
+
+const THEMES = `Tints I can mix: ${palettes.map((p) => p.id).join(", ")}.`
 
 function walkTo(id: string) {
   document.getElementById(id)?.scrollIntoView()
@@ -28,6 +32,8 @@ export function Prompt({ onNextPlate }: PromptProps) {
       .toLowerCase()
     form.reset()
     if (!word) return
+    // "umber" and "theme umber" both work
+    const tint = word.replace(/^theme\s+/, "")
 
     const section = sections.find((s) => s.id === word || s.label.toLowerCase() === word)
     if (section) {
@@ -46,6 +52,11 @@ export function Prompt({ onNextPlate }: PromptProps) {
       setReply(`A door opens to ${word === "github" ? "GitHub" : "LinkedIn"}.`)
     } else if (word === "plate") {
       setReply(`A new plate: ${onNextPlate()}.`)
+    } else if (word === "theme" || word === "themes") {
+      setReply(THEMES)
+    } else if (isPalette(tint)) {
+      setPalette(tint)
+      setReply(`The room is repainted in ${paletteLabel(tint)}.`)
     } else if (word === "xyzzy") {
       setReply("Nothing happens.")
     } else {

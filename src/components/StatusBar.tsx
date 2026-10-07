@@ -2,14 +2,17 @@ import { useMemo } from "react"
 import { sections, type SectionId } from "@/data/site"
 import { useGithub } from "@/hooks/useGithub"
 import { useNow } from "@/hooks/useNow"
+import { setPalette, usePalette } from "@/hooks/usePalette"
 import { moon, planetaryHour, statusClock } from "@/lib/almanac"
 import { contributionStats } from "@/lib/contributions"
+import { nextPalette, paletteLabel } from "@/lib/palette"
 
 const count = new Intl.NumberFormat("en")
 
 /** NetHack-style bottom line. Every field is live: scroll position, GitHub numbers, the almanac. */
 export function StatusBar({ active }: { active: SectionId }) {
   const now = useNow()
+  const palette = usePalette()
   const { state } = useGithub()
   const data = state.status === "ready" ? state.data : undefined
   const stats = useMemo(() => (data ? contributionStats(data.days) : undefined), [data])
@@ -18,7 +21,7 @@ export function StatusBar({ active }: { active: SectionId }) {
   return (
     <aside
       aria-label="Status"
-      className="fixed inset-x-0 bottom-0 z-(--z-index-bars) border-t-2 border-rule bg-ink pb-[env(safe-area-inset-bottom)] text-tan tabular-nums"
+      className="bar fixed inset-x-0 bottom-0 z-(--z-index-bars) border-t-2 border-rule bg-ink pb-[env(safe-area-inset-bottom)] text-tan tabular-nums"
     >
       <div className="shell flex h-8 items-center gap-4 whitespace-nowrap">
         <span>
@@ -39,7 +42,15 @@ export function StatusBar({ active }: { active: SectionId }) {
             </span>
           </>
         )}
-        <span className="ml-auto" title="Local time in Buenos Aires">
+        <button
+          type="button"
+          onClick={() => setPalette(nextPalette(palette))}
+          className="ml-auto hidden h-8 cursor-pointer hover:text-cream sm:block"
+          title="Change the palette"
+        >
+          Tint:<span className="text-cream">{paletteLabel(palette)}</span>
+        </button>
+        <span className="ml-auto sm:ml-0" title="Local time in Buenos Aires">
           {statusClock(now)}
         </span>
         <span className="hidden sm:inline">Hour of {planetaryHour(now).hour}</span>

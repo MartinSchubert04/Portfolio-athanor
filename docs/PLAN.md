@@ -38,6 +38,7 @@ contribuciones de GitHub) y sumándole personalidad.
 | 9 | Auditoría | `design-taste-frontend` §14, `web-design-guidelines` | `docs/design/preflight.md` | Cada fila tiene estado; los desvíos están en `CLAUDE.md` | Hecho |
 | 10 | Deploy | - | `.github/workflows/deploy.yml` | `npm run build` genera `dist/` con rutas relativas | Workflow escrito, sin ejecutar |
 | 11 | Copy formal | `DESIGN.md` §5 | Ficha de Skills con etiquetas profesionales (`Profile`: Role, Companies, Education, Location); Contact sin párrafo de créditos | `lint`, `test` y `build` pasan | Hecho |
+| 12 | Paletas | `DESIGN.md` §2 | Umber, Vellum, Orpiment y Cinnabar de athanor en `src/index.css`; `src/lib/palette.ts`, `usePalette`, botón `Tint` y comando del prompt | `lint`, `test` y `build` pasan; capturas a 1366x768 del hero con las cinco paletas. Sin correr las auditorías de las skills | Hecho, falta auditar |
 
 ## Decisiones
 
@@ -53,7 +54,7 @@ contribuciones de GitHub) y sumándole personalidad.
 | Imágenes a tamaño natural, recortadas por el marco | `object-fit: cover` | Escalar un tramado lo ensucia |
 | Animación con CSS `steps()` | Motion | El movimiento por pasos es parte de la estética y no necesita librería |
 | Sin íconos | Phosphor | Ver desvíos en `CLAUDE.md` |
-| Solo modo oscuro | Tema claro "pergamino" | Ver desvíos en `CLAUDE.md` |
+| Paletas por tokens CSS en `:root[data-palette]` | Un juego de imágenes por paleta | Los PNG son de un color sobre transparente; un filtro SVG los retiñe y no hay que regenerar arte |
 
 ## Ideas propias sumadas al contenido original
 

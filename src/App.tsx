@@ -34,6 +34,13 @@ export function App() {
       >
         Skip to Content
       </a>
+      {/* Re-inks the one-color plate PNGs in the palette's plate color (see .plate-frame in index.css) */}
+      <svg aria-hidden="true" className="absolute size-0">
+        <filter id="plate-ink" colorInterpolationFilters="sRGB">
+          <feFlood style={{ floodColor: "var(--color-plate)" }} />
+          <feComposite in2="SourceAlpha" operator="in" />
+        </filter>
+      </svg>
       <TopBar active={active} />
       <main id="main" className="pb-8">
         <Hero plate={plates[plateIndex]} onNextPlate={nextPlate} />
