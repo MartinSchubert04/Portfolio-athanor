@@ -1,9 +1,12 @@
 import blake from "@/assets/plates/blake-ancient-of-days.png"
 import cabanel from "@/assets/plates/cabanel-fallen-angel.png"
+import doreIsraelites from "@/assets/plates/dore-angel-israelites.png"
+import dorePaleHorse from "@/assets/plates/dore-death-pale-horse.png"
 import doreAngels from "@/assets/plates/dore-satan-angels.png"
 import doreDespair from "@/assets/plates/dore-satan-despair.png"
 import doreFalls from "@/assets/plates/dore-satan-falls.png"
 import doreProfile from "@/assets/plates/dore-satan-profile.png"
+import doreRises from "@/assets/plates/dore-satan-rises.png"
 import friedrich from "@/assets/plates/friedrich-wanderer.png"
 import hands from "@/assets/plates/michelangelo-adam-hands-wide.png"
 
@@ -24,6 +27,9 @@ export const plates: Plate[] = [
   { id: "dore-profile", src: doreProfile, artist: "Gustave Doré", title: "Paradise Lost, Satan on the rock", year: "1866" },
   { id: "blake", src: blake, artist: "William Blake", title: "The Ancient of Days", year: "1794" },
   { id: "dore-falls", src: doreFalls, artist: "Gustave Doré", title: "Paradise Lost, the fall of Satan", year: "1866" },
+  { id: "dore-pale-horse", src: dorePaleHorse, artist: "Gustave Doré", title: "Death on the Pale Horse", year: "1865" },
+  { id: "dore-rises", src: doreRises, artist: "Gustave Doré", title: "Paradise Lost, Satan rises from the lake", year: "1866" },
+  { id: "dore-israelites", src: doreIsraelites, artist: "Gustave Doré", title: "An Angel Appears to the Israelites", year: "1866" },
 ]
 
 // 1024x384
