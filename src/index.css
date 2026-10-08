@@ -377,6 +377,23 @@
     filter: url("#plate-ink");
   }
 
+  /* The Skills plate is drawn twice and split in the empty column between the two fingertips */
+  .plate-hands .hand-left {
+    clip-path: inset(0 calc(50% - 2px) 0 0);
+    transform-origin: left center;
+    --reach: -64px;
+    --turn: 18deg;
+  }
+
+  .plate-hands .hand-right {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 0 0 calc(50% + 2px));
+    transform-origin: right center;
+    --reach: 64px;
+    --turn: -18deg;
+  }
+
   /* The terminal prints an image row by row; the cover slides away in the same steps */
   .plate-cover {
     position: absolute;
@@ -446,6 +463,22 @@
     transition: opacity 400ms steps(5, end);
   }
 
+  /* The hands close in as the plate scrolls to the middle of the viewport, 4px per step.
+     Without scroll timelines the plate is still, with the hands already together */
+  @supports (animation-timeline: view()) {
+    /* The timeline is named on the frame: the frame clips, so view() on the image would track the frame */
+    .plate-hands {
+      perspective: 960px;
+      view-timeline: --plate-hands block;
+    }
+
+    .plate-hands img {
+      animation: hand-reach steps(16, end) both;
+      animation-timeline: --plate-hands;
+      animation-range: entry 0% cover 50%;
+    }
+  }
+
   /* Sections arrive in a few hard steps, like a slow terminal redraw */
   .reveal {
     opacity: 0;
@@ -462,6 +495,16 @@
 
   .skeleton {
     animation: skeleton-blink 1200ms steps(2, jump-none) infinite;
+  }
+}
+
+@keyframes hand-reach {
+  from {
+    transform: translateX(var(--reach)) rotateY(var(--turn));
+  }
+
+  to {
+    transform: none;
   }
 }
 

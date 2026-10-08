@@ -39,6 +39,7 @@ contribuciones de GitHub) y sumándole personalidad.
 | 10 | Deploy | - | `.github/workflows/deploy.yml` | `npm run build` genera `dist/` con rutas relativas | Workflow escrito, sin ejecutar |
 | 11 | Copy formal | `DESIGN.md` §5 | Ficha de Skills con etiquetas profesionales (`Profile`: Role, Companies, Education, Location); Contact sin párrafo de créditos | `lint`, `test` y `build` pasan | Hecho |
 | 12 | Paletas | `DESIGN.md` §2 | Umber, Vellum, Orpiment y Cinnabar de athanor en `src/index.css`; `src/lib/palette.ts`, `usePalette`, botón `Tint` y comando del prompt | `lint`, `test` y `build` pasan; capturas a 1366x768 del hero con las cinco paletas. Sin correr las auditorías de las skills | Hecho, falta auditar |
+| 13 | Manos con scroll (prueba) | `DESIGN.md` §4 Plates | `.plate-hands` en `src/index.css` y `Skills.tsx`: el grabado se dibuja dos veces, recortado por mano, y las manos se acercan con `animation-timeline` en 16 pasos. Contact sin la carta del día y con el texto centrado contra el grabado | `lint`, `test` y `build` pasan; capturas en Chrome headless a 1366x768 en tres posiciones de scroll y de Contact. Sin probar en teléfono ni en Firefox (ahí queda fija) | Prueba, a decidir si queda el giro 3D |
 
 ## Decisiones
 
@@ -64,7 +65,7 @@ contribuciones de GitHub) y sumándole personalidad.
 - **Cifras derivadas.** Días activos, racha actual, racha más larga y día más cargado, calculados de los datos.
 - **Prompt.** El campo "speak the word" del lock screen navega el sitio por comandos.
 - **Revelar la placa.** Las capturas de proyectos arrancan tramadas y muestran el original al pedirlo.
-- **Almanaque.** Hora planetaria, luna y carta del día, portados de `splash.ps1`.
+- **Almanaque.** Hora planetaria y luna, portados de `splash.ps1`. La carta del día se sacó de Contact en la fase 13; `cardOfTheDay` sigue en `src/lib/almanac.ts`.
 - **Baraja de grabados.** El grabado del hero rota sin repetir hasta agotar la serie, como en el splash.
 
 ## Próximos pasos

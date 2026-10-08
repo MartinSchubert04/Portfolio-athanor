@@ -120,6 +120,10 @@ Skills. Dark clay, 40px tall, padding 8px 16px. Hover turns the text amber. Each
   Never scale a dithered image; resize the frame instead.
 - On load and on change the plate prints in from the top: a cover slides down in `steps(20)`, 900ms.
 - Caption below, outside the image: `Artist, Title (year)` in dim. No labels over the artwork.
+- The Skills plate (`.plate-hands`) is the one plate that moves with the scroll: it is drawn twice,
+  each copy clipped to one hand, and the hands close in by 64px in `steps(16)` while the plate
+  travels to the middle of the viewport. They start turned 18 degrees in depth and end flat, so the
+  dither is only resampled mid-way and is pixel-exact at rest. (Trial: the turn may be dropped.)
 
 ### Prompt (`.prompt-input`)
 Two concentric 2px amber frames on ink, 44px tall, amber caret. Label above (`@ visitor, speak the

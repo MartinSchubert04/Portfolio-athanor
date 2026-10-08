@@ -6,6 +6,7 @@ export const site = {
   pitch: "Fullstack developer in Buenos Aires. I build web apps end to end, and neural networks in C++ for fun.",
   resume,
   resumeFileName: "MartinSchubert.pdf",
+  email: "tinchoschubert04429@gmail.com",
   linkedin: "https://www.linkedin.com/in/martin-schubert-44b842240/",
   github: GITHUB_PROFILE,
 }

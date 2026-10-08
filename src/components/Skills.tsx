@@ -1,6 +1,6 @@
 import { HANDS_SIZE, handsPlate } from "@/data/plates"
 import { sheet, skillGroups } from "@/data/skills"
-import { PlateFigure } from "./PlateFigure"
+import { plateCaption } from "./PlateFigure"
 import { Section } from "./Section"
 
 export function Skills() {
@@ -8,7 +8,22 @@ export function Skills() {
     <Section id="skills" title="Skills">
       {/* As wide as the artwork, so the caption starts at the plate's left edge */}
       <div className="mx-auto" style={{ maxWidth: HANDS_SIZE.width }}>
-        <PlateFigure plate={handsPlate} {...HANDS_SIZE} frameClassName="h-[224px] w-full md:h-[320px]" />
+        <figure className="m-0 min-w-0">
+          {/* The same plate twice, each clipped to one hand, so the two can move apart (see .plate-hands) */}
+          <div className="plate-frame plate-hands h-[224px] w-full md:h-[320px]">
+            <img
+              className="hand-left"
+              src={handsPlate.src}
+              alt={`${handsPlate.title}, by ${handsPlate.artist}, as a two-color dithered plate`}
+              {...HANDS_SIZE}
+              loading="lazy"
+              decoding="async"
+            />
+            <img className="hand-right" src={handsPlate.src} alt="" aria-hidden="true" {...HANDS_SIZE} loading="lazy" decoding="async" />
+            <div className="plate-cover" aria-hidden="true" />
+          </div>
+          <figcaption className="mt-2 text-dim">{plateCaption(handsPlate)}</figcaption>
+        </figure>
       </div>
 
       <div className="mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
