@@ -43,52 +43,38 @@ Get-ChildItem (Join-Path $Art 'plates') -File | Where-Object Extension -in '.jpg
 # Franja apaisada para la seccion de skills: 512x192 logicos, 1024x384 finales
 Convert-Plate (Join-Path $Art 'plates\michelangelo-adam-hands.jpg') (Join-Path $plates 'michelangelo-adam-hands-wide.png') '512x192'
 
-# Secuencia de la seccion de skills: las dos manos giran en profundidad y se juntan con el scroll.
-# Cada cuadro se deforma en gris y se trama despues, asi el tramado queda nitido en todos.
-# Los cuadros se apilan en una tira vertical de 1024 x (384 x cuadros); el ultimo es la placa en reposo.
-function Convert-HandsStrip([string]$src, [string]$dst, [int]$frames = 16) {
-    $w = 512; $h = 192
-    $split = 257   # columna vacia entre las dos yemas
-    $focal = 600   # distancia de la camara, en pixeles logicos
+# Secuencia de la seccion de skills: un vuelo de camara alrededor de las manos que termina en el grabado.
+# Los cuadros del vuelo salen de art\hands-flight (scripts\capture-hands-flight.mjs); se pasan a
+# negativo dentro de la silueta, como la placa, y se traman. Los ultimos cuadros disuelven el vuelo en
+# la placa, pixel a pixel, desde las yemas hacia afuera. Todo se apila en una tira vertical de
+# 512 x (192 x cuadros), en pixeles logicos: el sitio la muestra al doble. El ultimo cuadro es la placa.
+function Convert-HandsStrip([string]$flight, [string]$plate, [string]$dst, [int]$dissolve = 12) {
     $tmp = Join-Path $env:TEMP 'athanor-hands'
+    Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
     New-Item -ItemType Directory -Force $tmp | Out-Null
-    $tone = Join-Path $tmp 'tone.png'; $relief = Join-Path $tmp 'relief.png'
-    $n = { param($v) ([double]$v).ToString('0.###', [cultureinfo]::InvariantCulture) }
 
-    magick $src -alpha off -shave '2%x2%' -colorspace gray -resize "${w}x${h}^" -gravity center -extent "${w}x${h}" `
-        -auto-level -negate -level '25%,85%' $tone
-    # Relieve aproximado: lo mas claro esta mas cerca. 50% de gris es "sin desplazamiento".
-    magick $tone -blur 0x6 -auto-level -evaluate multiply 0.5 -evaluate add '50%' $relief
-
-    $cells = foreach ($k in 0..($frames - 1)) {
-        $t = 1 - $k / ($frames - 1)
-        $angle = 34 * $t * [math]::PI / 180; $reach = 16 * $t; $shift = 6 * [math]::Sin($angle)
-        # 1: mano izquierda, con la yema hacia la derecha. -1: mano derecha.
-        $halves = foreach ($side in 1, -1) {
-            $x0 = if ($side -eq 1) { 0 } else { $split }
-            $hw = if ($side -eq 1) { $split } else { $w - $split }
-            $crop = "${hw}x${h}+${x0}+0"
-            # Cada mitad gira sobre su eje vertical central: la yema se aleja y el brazo se acerca.
-            $corners = foreach ($p in @(0, 0), @($hw, 0), @(0, $h), @($hw, $h)) {
-                $dx = $p[0] - $hw / 2
-                $scale = $focal / ($focal + $side * $dx * [math]::Sin($angle))
-                $x = $hw / 2 + $dx * [math]::Cos($angle) * $scale - $side * $reach
-                $y = $h / 2 + ($p[1] - $h / 2) * $scale
-                "$($p[0]),$($p[1]) $(& $n $x),$(& $n $y)"
-            }
-            $half = Join-Path $tmp "half$side.png"
-            magick $tone -crop $crop +repage '(' $relief -crop $crop +repage ')' -compose displace `
-                -define "compose:args=$(& $n ($side * $shift))x0" -composite `
-                -virtual-pixel black -distort Perspective ($corners -join '  ') $half
-            $half
-        }
-        $cell = Join-Path $tmp ('cell{0:d2}.png' -f $k)
-        magick @halves +append -dither FloydSteinberg -remap $palette -colorspace gray @tint $cell
+    $cells = @(Get-ChildItem $flight -Filter '*.jpg' | Sort-Object Name | ForEach-Object {
+        $cell = Join-Path $tmp "flight-$($_.BaseName).png"
+        magick $_.FullName -alpha off -colorspace gray -resize 512x192 `
+            '(' +clone -threshold '4%' -blur 0x0.6 ')' '(' -clone 0 -level '4%,58%' -negate -level '20%,92%' ')' `
+            -delete 0 -compose multiply -composite -dither FloydSteinberg -remap $palette -colorspace gray $cell
         $cell
+    })
+    $last = $cells[-1]
+
+    # La placa en pixeles logicos, y el orden en que cada pixel pasa del vuelo a la placa
+    $still = Join-Path $tmp 'plate.png'; $order = Join-Path $tmp 'order.png'
+    magick $plate -alpha extract -filter point -resize '50%' $still
+    magick -size 512x192 -seed 7 xc: +noise Random -colorspace gray -fx '(u+abs(i/w-0.5)*2)/2' $order
+    foreach ($k in 1..$dissolve) {
+        $cell = Join-Path $tmp ('dissolve-{0:d2}.png' -f $k)
+        $share = (100.0 * $k / $dissolve).ToString('0.##', [cultureinfo]::InvariantCulture)
+        magick $last $still '(' $order -threshold "$share%" -negate ')' -composite $cell
+        $cells += $cell
     }
-    magick @cells -append -strip $dst
+    magick @cells -append +level-colors "$Dark,$Light" -transparent $Dark -strip $dst
 }
-Convert-HandsStrip (Join-Path $Art 'plates\michelangelo-adam-hands.jpg') (Join-Path $plates 'michelangelo-adam-hands-strip.png')
+Convert-HandsStrip (Join-Path $Art 'hands-flight') (Join-Path $plates 'michelangelo-adam-hands-wide.png') (Join-Path $plates 'michelangelo-adam-hands-strip.png')
 
 # Capturas de proyectos: 320x200 logicos, 640x400 finales. Una version tramada y la original en color
 # con el mismo recorte, para que al "revelar" la placa coincidan pixel a pixel.

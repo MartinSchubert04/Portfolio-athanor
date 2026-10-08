@@ -1,52 +1,35 @@
-import { lazy, Suspense } from "react"
-import { HANDS_SIZE, handsPlate } from "@/data/plates"
+import { HANDS_MODEL, HANDS_SIZE, handsPlate } from "@/data/plates"
 import { sheet, skillGroups } from "@/data/skills"
 import { plateCaption } from "./PlateFigure"
 import { Section } from "./Section"
 
-// Trial: ?hands=3d swaps the frame strip for the live 3D model
-const HandsScene = lazy(() => import("./HandsScene"))
-const live = new URLSearchParams(location.search).get("hands") === "3d"
-
 export function Skills() {
-  const alt = live
-    ? "Two hands about to touch, after Michelangelo’s The Creation of Adam, as a dithered 3D model"
-    : `${handsPlate.title}, by ${handsPlate.artist}, as a two-color dithered plate`
-
   return (
     <Section id="skills" title="Skills">
-      {/* As wide as the artwork, so the caption starts at the plate's left edge */}
-      {/* In the WebGL trial the figure stays pinned mid-screen while the scroll drives the camera */}
-      <div className={`mx-auto ${live ? "motion-safe:h-[240dvh]" : ""}`} style={{ maxWidth: HANDS_SIZE.width }}>
-        <figure className={`m-0 min-w-0 ${live ? "sticky top-[calc(50dvh-176px)]" : ""}`}>
-          {/* A strip of frames; the scroll steps through them (see .plate-hands) */}
-          <div className="plate-frame plate-hands h-[224px] w-full md:h-[320px]">
-            {live ? (
-              <Suspense>
-                <HandsScene label={alt} />
-              </Suspense>
-            ) : (
-              <img src={handsPlate.src} alt={alt} {...HANDS_SIZE} loading="lazy" decoding="async" />
-            )}
-            <div className="plate-cover" aria-hidden="true" />
-          </div>
-          {live ? (
-            // The model is CC BY 4.0: the license asks for the author, the source and a note that it was adapted
+      {/* As wide as the artwork, so the caption starts at the plate's left edge. The track and the pin
+          only take effect where the scroll can drive the strip (see .plate-hands-track) */}
+      <div className="plate-hands-track mx-auto" style={{ maxWidth: HANDS_SIZE.width }}>
+        <div className="plate-hands-pin">
+          <figure className="m-0 min-w-0">
+            <div className="plate-frame plate-hands h-[224px] w-full md:h-[320px]">
+              <img
+                src={handsPlate.src}
+                alt={`${handsPlate.title}, by ${handsPlate.artist}, as a two-color dithered plate`}
+                {...HANDS_SIZE}
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="plate-cover" aria-hidden="true" />
+            </div>
             <figcaption className="mt-2 text-dim">
-              After Michelangelo, The Creation of Adam (c. 1512). Model by{" "}
-              <a href="https://sketchfab.com/3d-models/the-creation-of-adam-4d1727c7b83e4e6284bbadb63dbb537e" target="_blank" rel="noopener" className="link">
-                Loïc Norgeot
+              {plateCaption(handsPlate)}. Flight rendered from a{" "}
+              <a href={HANDS_MODEL} target="_blank" rel="noopener" className="link">
+                3D study by Fatma Saeed
               </a>
-              , from a scan by Artec 3D and a base mesh by Jeremy E. Grayson, adapted,{" "}
-              <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" className="link">
-                CC BY 4.0
-              </a>
-              .
+              , with her permission.
             </figcaption>
-          ) : (
-            <figcaption className="mt-2 text-dim">{plateCaption(handsPlate)}</figcaption>
-          )}
-        </figure>
+          </figure>
+        </div>
       </div>
 
       <div className="mt-14 grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">

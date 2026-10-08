@@ -377,8 +377,8 @@
     filter: url("#plate-ink");
   }
 
-  /* The Skills plate is a vertical strip of 16 frames, each 1024x384 and dithered on its own.
-     The frame shows one of them, centered; at rest it is the last one, with the hands together */
+  /* The Skills plate is a vertical strip of 60 frames of 512x192, shown at twice their size like
+     every other plate. The frame shows one of them, centered; at rest it is the last one, the plate */
   .plate-hands img {
     position: absolute;
     top: calc(50% - 192px);
@@ -386,19 +386,8 @@
     width: 1024px;
     max-width: none;
     height: auto;
-    transform: translate(-50%, -5760px);
-  }
-
-  /* The WebGL trial of the same plate: 512x192 device pixels shown at 2x, inked like the PNGs */
-  .plate-hands canvas {
-    position: absolute;
-    top: calc(50% - 192px);
-    left: calc(50% - 512px);
-    width: 1024px;
-    max-width: none;
-    height: 384px;
-    image-rendering: pixelated;
-    filter: url("#plate-ink");
+    object-fit: fill;
+    transform: translate(-50%, -22656px);
   }
 
   /* The terminal prints an image row by row; the cover slides away in the same steps */
@@ -470,37 +459,31 @@
     transition: opacity 400ms steps(5, end);
   }
 
-  /* The strip advances one frame per step as the plate scrolls to the middle of the viewport.
-     Without scroll timelines the plate is still, on its last frame */
+  /* The strip is a camera flight around the hands. While it plays the figure stays pinned in the
+     middle of the screen, and the scroll through the taller track advances it one frame per step.
+     Without scroll timelines there is no track: the plate is still, on its last frame */
   @supports (animation-timeline: view()) {
-    /* The timeline is named on the frame: the frame clips, so view() on the image would track the frame */
-    .plate-hands {
+    .plate-hands-track {
+      height: 260dvh;
       view-timeline: --plate-hands block;
+      /* Measured against the whole viewport, not the area inside the page's scroll-padding */
+      view-timeline-inset: 0px;
+    }
+
+    .plate-hands-pin {
+      position: sticky;
+      top: 0;
+      display: grid;
+      align-content: center;
+      height: 100dvh;
     }
 
     .plate-hands img {
-      animation: hands-turn steps(15, end) both;
+      animation: hands-turn steps(59, end) both;
       animation-timeline: --plate-hands;
-      animation-range: entry 0% cover 50%;
+      /* Done a little before the figure is released, so the finished plate holds for a moment */
+      animation-range: contain 0% contain 90%;
     }
-  }
-
-  /* Sections arrive in a few hard steps, like a slow terminal redraw */
-  .reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition:
-      opacity 400ms steps(4, end),
-      transform 400ms steps(4, end);
-  }
-
-  .reveal[data-in="true"] {
-    opacity: 1;
-    transform: none;
-  }
-
-  .skeleton {
-    animation: skeleton-blink 1200ms steps(2, jump-none) infinite;
   }
 }
 

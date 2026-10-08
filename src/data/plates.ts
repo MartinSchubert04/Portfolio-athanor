@@ -32,7 +32,8 @@ export const plates: Plate[] = [
   { id: "dore-israelites", src: doreIsraelites, artist: "Gustave Doré", title: "An Angel Appears to the Israelites", year: "1866" },
 ]
 
-// 16 frames of 1024x384 stacked in one strip; the last one is the plate at rest
+// 60 frames of 512x192 stacked in one strip and shown at twice their size: a camera flight around
+// the hands that dissolves into the plate. The last frame is the plate at rest
 export const handsPlate: Plate = {
   id: "hands",
   src: hands,
@@ -42,4 +43,5 @@ export const handsPlate: Plate = {
 }
 
 export const PLATE_SIZE = { width: 512, height: 640 }
-export const HANDS_SIZE = { width: 1024, height: 384 * 16 }
+export const HANDS_SIZE = { width: 1024, height: 384 * 60 }
+export const HANDS_MODEL = "https://sketchfab.com/3d-models/creation-of-adam-b2b79dff2ff74dbaa47ac80bab4f0173"

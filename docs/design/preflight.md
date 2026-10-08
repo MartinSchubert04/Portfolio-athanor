@@ -77,13 +77,10 @@ Reglas vigentes de [vercel-labs/web-interface-guidelines](https://github.com/ver
 ## 3. Pendientes conocidos
 
 - Medir con Lighthouse y en un teléfono real.
-- Fase 13 (manos con scroll): se revisó a mano contra taste §5.D y §6 (sin listener de scroll, solo
-  `transform`, dentro de `prefers-reduced-motion: no-preference`, texto alternativo en una sola de las
-  dos copias). No se corrió el pre-flight completo ni `web-design-guidelines`. Durante el giro el
-  tramado se re-muestrea y se ve blando; en reposo queda exacto. Eso era la variante A; la B (tira de
-  cuadros) no re-muestrea nada. La C (`?hands=3d`) se mueve en continuo, contra "motion is stepped" de
-  `DESIGN.md` §7, usa un bucle de `requestAnimationFrame` mientras la placa está en pantalla y no
-  tiene alternativa si falta WebGL2.
+- Fase 13 (manos con scroll): se revisó a mano contra taste §5.D y §6 (sin listener de scroll ni
+  JavaScript, solo `transform`, por pasos, dentro de `prefers-reduced-motion: no-preference`). No se
+  corrió el pre-flight completo ni `web-design-guidelines`. La figura fija ocupa unas dos pantallas
+  y media de scroll; es el único tramo del sitio que retiene el scroll. La tira pesa 215 kB.
 - Con escala de pantalla fraccionaria (Windows al 125 o 150%) los píxeles del tramado y de la fuente
   no caen en píxeles físicos enteros; se ve bien pero no perfecto. Es un límite del medio.
 - Falta imagen Open Graph para cuando se comparta el link.
