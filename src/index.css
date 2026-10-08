@@ -377,21 +377,28 @@
     filter: url("#plate-ink");
   }
 
-  /* The Skills plate is drawn twice and split in the empty column between the two fingertips */
-  .plate-hands .hand-left {
-    clip-path: inset(0 calc(50% - 2px) 0 0);
-    transform-origin: left center;
-    --reach: -64px;
-    --turn: 18deg;
+  /* The Skills plate is a vertical strip of 16 frames, each 1024x384 and dithered on its own.
+     The frame shows one of them, centered; at rest it is the last one, with the hands together */
+  .plate-hands img {
+    position: absolute;
+    top: calc(50% - 192px);
+    left: 50%;
+    width: 1024px;
+    max-width: none;
+    height: auto;
+    transform: translate(-50%, -5760px);
   }
 
-  .plate-hands .hand-right {
+  /* The WebGL trial of the same plate: 512x192 device pixels shown at 2x, inked like the PNGs */
+  .plate-hands canvas {
     position: absolute;
-    inset: 0;
-    clip-path: inset(0 0 0 calc(50% + 2px));
-    transform-origin: right center;
-    --reach: 64px;
-    --turn: -18deg;
+    top: calc(50% - 192px);
+    left: calc(50% - 512px);
+    width: 1024px;
+    max-width: none;
+    height: 384px;
+    image-rendering: pixelated;
+    filter: url("#plate-ink");
   }
 
   /* The terminal prints an image row by row; the cover slides away in the same steps */
@@ -463,17 +470,16 @@
     transition: opacity 400ms steps(5, end);
   }
 
-  /* The hands close in as the plate scrolls to the middle of the viewport, 4px per step.
-     Without scroll timelines the plate is still, with the hands already together */
+  /* The strip advances one frame per step as the plate scrolls to the middle of the viewport.
+     Without scroll timelines the plate is still, on its last frame */
   @supports (animation-timeline: view()) {
     /* The timeline is named on the frame: the frame clips, so view() on the image would track the frame */
     .plate-hands {
-      perspective: 960px;
       view-timeline: --plate-hands block;
     }
 
     .plate-hands img {
-      animation: hand-reach steps(16, end) both;
+      animation: hands-turn steps(15, end) both;
       animation-timeline: --plate-hands;
       animation-range: entry 0% cover 50%;
     }
@@ -498,13 +504,9 @@
   }
 }
 
-@keyframes hand-reach {
+@keyframes hands-turn {
   from {
-    transform: translateX(var(--reach)) rotateY(var(--turn));
-  }
-
-  to {
-    transform: none;
+    transform: translate(-50%, 0);
   }
 }
 

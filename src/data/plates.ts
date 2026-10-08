@@ -8,7 +8,7 @@ import doreFalls from "@/assets/plates/dore-satan-falls.png"
 import doreProfile from "@/assets/plates/dore-satan-profile.png"
 import doreRises from "@/assets/plates/dore-satan-rises.png"
 import friedrich from "@/assets/plates/friedrich-wanderer.png"
-import hands from "@/assets/plates/michelangelo-adam-hands-wide.png"
+import hands from "@/assets/plates/michelangelo-adam-hands-strip.png"
 
 export interface Plate {
   id: string
@@ -32,7 +32,7 @@ export const plates: Plate[] = [
   { id: "dore-israelites", src: doreIsraelites, artist: "Gustave Doré", title: "An Angel Appears to the Israelites", year: "1866" },
 ]
 
-// 1024x384
+// 16 frames of 1024x384 stacked in one strip; the last one is the plate at rest
 export const handsPlate: Plate = {
   id: "hands",
   src: hands,
@@ -42,4 +42,4 @@ export const handsPlate: Plate = {
 }
 
 export const PLATE_SIZE = { width: 512, height: 640 }
-export const HANDS_SIZE = { width: 1024, height: 384 }
+export const HANDS_SIZE = { width: 1024, height: 384 * 16 }

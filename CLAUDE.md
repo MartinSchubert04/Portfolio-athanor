@@ -23,6 +23,7 @@ npm run build    # typecheck (tsc -b) + build de producción en dist/
 npm run lint     # eslint
 npm test         # vitest, tests de src/lib
 npm run plates   # regenera las imágenes tramadas desde art/ (necesita ImageMagick)
+npm run model    # regenera src/assets/models/hands.bin desde art/models/
 ```
 
 Antes de dar un cambio por terminado: `npm run lint`, `npm test` y `npm run build` tienen que pasar.
@@ -30,8 +31,8 @@ Antes de dar un cambio por terminado: `npm run lint`, `npm test` y `npm run buil
 ## Estructura
 
 ```
-art/                 originales: grabados (plates/) y capturas de proyectos (screens/)
-scripts/             make-plates.ps1, el pipeline de dithering con ImageMagick
+art/                 originales: grabados (plates/), capturas de proyectos (screens/) y el modelo 3D (models/)
+scripts/             make-plates.ps1, el pipeline de dithering con ImageMagick; make-hands-model.mjs
 src/assets/          salida del pipeline, fuente VGA y el CV. No editar imágenes a mano
 src/data/            contenido: career, projects, skills, plates, site. Es lo único que cambia al actualizar el CV
 src/lib/             lógica pura y testeada: almanac, contributions, github, sigil, plateDeck

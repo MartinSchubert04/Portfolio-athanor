@@ -120,10 +120,19 @@ Skills. Dark clay, 40px tall, padding 8px 16px. Hover turns the text amber. Each
   Never scale a dithered image; resize the frame instead.
 - On load and on change the plate prints in from the top: a cover slides down in `steps(20)`, 900ms.
 - Caption below, outside the image: `Artist, Title (year)` in dim. No labels over the artwork.
-- The Skills plate (`.plate-hands`) is the one plate that moves with the scroll: it is drawn twice,
-  each copy clipped to one hand, and the hands close in by 64px in `steps(16)` while the plate
-  travels to the middle of the viewport. They start turned 18 degrees in depth and end flat, so the
-  dither is only resampled mid-way and is pixel-exact at rest. (Trial: the turn may be dropped.)
+- The Skills plate (`.plate-hands`) is the one plate that moves with the scroll. It is a strip of
+  16 frames in which the two hands turn in depth and close in; `npm run plates` warps each frame in
+  gray and dithers it afterwards, so every frame is pixel-exact. The scroll steps through the strip
+  (`steps(15)`, `transform` only) while the plate travels to the middle of the viewport. (Trial.)
+  `?hands=3d` swaps it for a second trial, `HandsScene`: a 3D model of the two hands (Loïc Norgeot,
+  CC BY 4.0, credited in the caption) lit from the top left and drawn live in WebGL with an ordered
+  4x4 dither. The figure is pinned mid-screen for about one and a half viewports of scroll while a
+  camera flies a spline around the fingers, from beside Adam's hand to head on, as they close in. It
+  never pulls back while the model is on screen, because the model stops at the wrists. Head on, at
+  2x, the model sits over the hands of the plate (registered per hand in `make-hands-model.mjs`) and
+  dissolves into it one cell at a time, from the fingertips outward; then the plate alone pulls back
+  to its full width, arms included. The model is shaded as a negative, like the plate. It moves
+  continuously instead of in steps.
 
 ### Prompt (`.prompt-input`)
 Two concentric 2px amber frames on ink, 44px tall, amber caret. Label above (`@ visitor, speak the
